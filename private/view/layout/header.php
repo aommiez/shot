@@ -27,6 +27,21 @@ use Main\Helper;
     <script src="<?php echo \Main\Helper\URL::absolute("/public/js/jquery.min.js")?>"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="<?php echo \Main\Helper\URL::absolute("/public/js/bootstrap.min.js")?>"></script>
-    <script src="<?php echo \Main\Helper\URL::absolute("/public/js/webcam.min.js")?>"></script>
+    <script src="<?php echo \Main\Helper\URL::absolute("/public/js/webcam.js")?>"></script>
 </head>
 <body>
+<style media="screen">
+  .topMenu {
+    margin-top: 10px;
+  }
+  body {
+        background: #f1f1f1;
+  }
+</style>
+<div class="container">
+ <div class="topMenu">
+   <a href="<?php echo Helper\URL::absolute("/")?>" class="btn btn-success btn-large"><i class="icon-white icon-camera"></i> Camera</a>
+   <a href="<?php echo Helper\URL::absolute("/photolist")?>" class="btn btn-success btn-large"><i class="icon-white icon-picture"></i> Photo List</a>
+   <a href="<?php echo Helper\URL::absolute("/setting")?>" class="btn btn-success btn-large"><i class="icon-white icon-cog"></i> Setting</a>
+ </div>
+</div>
