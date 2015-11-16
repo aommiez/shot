@@ -24,7 +24,7 @@ class JsonView extends BaseView {
             ignore_user_abort(); // optional
             ob_start();
 
-            echo json_encode($this->val);
+            echo json_encode($this->val, JSON_UNESCAPED_SLASHES);
 
             $size = ob_get_length();
             header("Content-Length: $size");
@@ -32,7 +32,7 @@ class JsonView extends BaseView {
             flush();            // Unless both are called !
         }
         else {
-            echo json_encode($this->val);
+            echo json_encode($this->val, JSON_UNESCAPED_SLASHES);
         }
     }
 }

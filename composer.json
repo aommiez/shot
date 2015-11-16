@@ -16,6 +16,7 @@
         "vlucas/valitron": "dev-master",
         "facebook/php-sdk-v4": "dev-master",
         "doctrine/orm": "dev-master",
-        "catfan/medoo": "dev-master"
+        "catfan/medoo": "dev-master",
+        "phpmailer/phpmailer": "^5.2"
     }
 }

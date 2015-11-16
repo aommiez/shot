@@ -11,7 +11,8 @@ $configs = array(
         "name" => "Camera Shot",
         "title" => "Camera Shot",
         "version" => "1.0",
-        "base_url" => "http://192.168.100.44/shot",
+        "base_url" => "http://192.168.100.30/shot",
+        // "base_url" => "http://192.168.100.44/shot",
         "site_url" => "",
         "share_url" => "",
         "directory" => dirname(__FILE__),
@@ -50,7 +51,7 @@ $configs = array(
                 "database_name" => "shot",
                 "server" => "localhost",
                 "username" => 'root',
-                'password' => '111111',
+                'password' => '',
 
                 // optional
                 'port' => 3306,

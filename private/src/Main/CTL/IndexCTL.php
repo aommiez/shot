@@ -15,6 +15,9 @@ use Main\View\HtmlView;
 use Main\View\JsonView;
 use Main\ThirdParty\Xcrud\Xcrud;
 use Main\DB\Medoo\MedooFactory;
+use Main\Helper\URL;
+use Main\Helper\ResponseHelper;
+
 /**
  * @Restful
  * @uri /
@@ -34,7 +37,43 @@ class IndexCTL extends BaseCTL {
      */
     public function getViewPhotoList(){
         // if PHP under version 5.4 use return new JsonView(array("id"=> $id));
-        return new HtmlView('/photolist');
+        $db = MedooFactory::getInstance();
+        $photos = $db->select("photo", "*");
+        foreach($photos as &$photo) {
+          $photo['url'] = URL::absolute('/public/upload/'.$photo['photo_name']);
+        }
+        return new HtmlView('/photolist', ['photos'=> $photos]);
+    }
+
+    /**
+     * @POST
+     * @uri photolist
+     */
+    public function postPhotoList() {
+        // if PHP under version 5.4 use return new JsonView(array("id"=> $id));
+        $db = MedooFactory::getInstance();
+        $photos = $db->select("photo", "*", ["id"=> $_POST['list_id']]);
+
+        $mail = new \PHPMailer();
+        $mail->CharSet = 'UTF-8';
+        $mail->setFrom('system@system.com');
+        $mail->addAddress($_POST['email']);
+        $mail->Subject = 'Send photo';
+        $mail->msgHTML('Send photo');
+
+        foreach($photos as $key => $photo) {
+          // $uploadfile = tempnam(sys_get_temp_dir(), sha1($_FILES['image']['name']));
+          // move_uploaded_file($_FILES['image']['tmp_name'], $uploadfile);
+          $path = 'public/upload/'.$photo['photo_name'];
+          $mail->addAttachment($path, $photo['photo_name']);
+        }
+
+        if($mail->send()) {
+          return ["success"=> true, 'photos'=> $photos];
+        }
+        else {
+          return ResponseHelper::error($mail->ErrorInfo);
+        }
     }
 
     /**
@@ -147,6 +186,7 @@ class IndexCTL extends BaseCTL {
       $db = MedooFactory::getInstance();
       $arr = $db->get('setting','*');
       $arr['logo_img'] = \Main\Helper\URL::absolute("/public/logo/".$arr['logo_img']);
+      $arr['bg_img'] = \Main\Helper\URL::absolute("/public/bg/".$arr['bg_img']);
       return new JsonView($arr);
     }
 
